@@ -181,7 +181,12 @@ def process_all_pages(child_depth_links, max_category_limit, max_page_limit, par
         if child_done_links: child_done_links_depth.update(child_done_links)
         print(f'Child categories for {url}: "{child_cat}')
         print(f'Child done categories for {url}: "{child_done_links}')
-    child_depth_links = child_depth_links.update(child_cat_links_depth) - child_done_links_depth
+    print('Child depth links', type(child_depth_links))
+    print('Child done depth links', type(child_done_links_depth))
+    print('Child cat links depth links', type(child_cat_links_depth))
+    print('Negation',type(child_depth_links.update(child_cat_links_depth)))
+    child_depth_links.update(child_cat_links_depth)
+    child_depth_links -= child_done_links_depth
     print(f'Child depth links after {i} :{child_depth_links}')
     update_settings(child_cat_depth, child_cat_links_depth, child_page_depth, child_page_links_depth,
                     child_done_links_depth)
