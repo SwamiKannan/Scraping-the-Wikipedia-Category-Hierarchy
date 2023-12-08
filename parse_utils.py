@@ -3,7 +3,14 @@ from bs4 import BeautifulSoup
 import settings
 from file_utils import write_files
 
+
 def check_link_format(link):
+    """
+    Most linked pages on wiki are of the format "/wiki/....". Hence, this function checks if the link is as per that
+    format. If so, append 'https://en.wikipedia.org' to it
+    :param link:
+    :return: link in correct format for requests.get()
+    """
     return 'https://en.wikipedia.org' + link if link.startswith('/') else link
 
 
@@ -98,7 +105,7 @@ def get_sections_and_next_flag(url):
 
 def get_categories(subcat_section):
     '''
-    This function takes as input, the subcat_section from get_sections_and_next_flag. We use this to extract two different sets of info:
+    This function takes as input, the subcat_section from get_sections_and_next_flag(). We use this to extract two different sets of info:
     1. The name of the subcategories within the section
     2. The links of the subcategories within the section
     return updated category_list, category_link_list
@@ -123,7 +130,7 @@ def get_categories(subcat_section):
 
 def get_pages(pages_section):
     """
-    This function takes as input, the pages section from get_sections_and_next_flag. We use this to extract all the
+    This function takes as input, the pages section from get_sections_and_next_flag(). We use this to extract all the
     page names and links in the pages section. We add these page names and links to page_list, page_link_list
     respectively and return the updated page_list and pages_link_list
     :param pages_section: pages_section from the get_sections_and_next_flag
@@ -139,10 +146,11 @@ def get_pages(pages_section):
 
 def get_next_page(pages_section, parent_url):
     """
-    response.get(url of next page)
-    get_pages_and_next_flag()
-    get_categories
-    get_pages
+    Extracts url of the "Next page" text. Runs process_page() for the next page and returns requisite categories,
+    categories, page names and page links on the "Next Page: get_pages_and_next_flag() get_categories get_pages
+    :param pages_section as obtained from get_sections_and_next_flag()
+    parent_url: the original url from where the scraping started. This is required for calling the process_page() function
+    :return:category_list, category_link_list, pages_list, pages_link_list of the "Next Page"
     """
     a_tags = pages_section.find_all('a')
     for a_tag in a_tags:
@@ -197,13 +205,13 @@ def process_all_pages(child_depth_links, max_category_limit, max_page_limit, par
 
 
 def process_depth_page(url, depth, parent_url, max_page_limit, max_category_limit):
-    print('Process depth page',url)
+    print('Process depth page', url)
     file_limit = False
     child_cat, child_cat_links, child_page, child_page_links, child_done_links = process_page(url, parent_url)
     update_settings(child_cat, child_cat_links, child_page, child_page_links, child_done_links)
     i = 0
-    child_depth_links = (child_cat_links-child_done_links)
-    print('Process depth page child depth links',child_depth_links)
+    child_depth_links = (child_cat_links - child_done_links)
+    print('Process depth page child depth links', child_depth_links)
     while i < depth and len(settings.cat_links - settings.done_links) > 0 and not file_limit:
         file_limit, i = process_all_pages(child_depth_links, max_category_limit, max_page_limit,
                                           parent_url, i)
