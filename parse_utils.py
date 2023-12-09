@@ -181,30 +181,24 @@ def process_all_pages(child_depth_links, max_category_limit, max_page_limit, par
         if child_done_links: child_done_links_depth.update(child_done_links)
         print(f'Child categories for {url}: "{child_cat}')
         print(f'Child done categories for {url}: "{child_done_links}')
-    print('Child depth links', type(child_depth_links))
-    print('Child done depth links', type(child_done_links_depth))
-    print('Child cat links depth links', type(child_cat_links_depth))
-    print('Negation',type(child_depth_links.update(child_cat_links_depth)))
     child_depth_links.update(child_cat_links_depth)
     child_depth_links -= child_done_links_depth
     print(f'Child depth links after {i} :{child_depth_links}')
     update_settings(child_cat_depth, child_cat_links_depth, child_page_depth, child_page_links_depth,
                     child_done_links_depth)
+    write_files()
     i += 1
     if i % 1000 == 0:
         print(
             f'{i}th scraping session: Category links collected: {len(settings.cat_links)}\tDone Links:{len(settings.done_links)}')
-        write_files()
     if max_category_limit > 0 or max_page_limit > 0:
         if 0 < max_category_limit <= len(settings.cat_names):
             print(
                 f'Max category length of {max_category_limit} reached. Total category names extracted: {len(settings.cat_names)}')
-            write_files()
             file_limit = True
         if 0 < max_page_limit <= len(settings.page_names):
             print(
                 f'Max category length of {max_page_limit} reached. Total category names extracted: {len(settings.cat_names)}')
-            write_files()
             file_limit = True
     return file_limit, i
 
@@ -216,7 +210,6 @@ def process_depth_page(url, depth, parent_url, max_page_limit, max_category_limi
     update_settings(child_cat, child_cat_links, child_page, child_page_links, child_done_links)
     i = 0
     child_depth_links = (child_cat_links - child_done_links)
-    print('Process depth page child depth links', child_depth_links)
     while i < depth and len(settings.cat_links - settings.done_links) > 0 and not file_limit:
         file_limit, i = process_all_pages(child_depth_links, max_category_limit, max_page_limit,
                                           parent_url, i)
