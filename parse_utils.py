@@ -179,11 +179,8 @@ def process_all_pages(child_depth_links, max_category_limit, max_page_limit, par
         if child_page: child_page_depth.update(child_page)
         if child_page_links: child_page_links_depth.update(child_page_links)
         if child_done_links: child_done_links_depth.update(child_done_links)
-        print(f'Child categories for {url}: "{child_cat}')
-        print(f'Child done categories for {url}: "{child_done_links}')
     child_depth_links.update(child_cat_links_depth)
     child_depth_links -= child_done_links_depth
-    print(f'Child depth links after {i} :{child_depth_links}')
     update_settings(child_cat_depth, child_cat_links_depth, child_page_depth, child_page_links_depth,
                     child_done_links_depth)
     write_files()
@@ -204,7 +201,6 @@ def process_all_pages(child_depth_links, max_category_limit, max_page_limit, par
 
 
 def process_depth_page(url, depth, parent_url, max_page_limit, max_category_limit):
-    print('Process depth page', url)
     file_limit = False
     child_cat, child_cat_links, child_page, child_page_links, child_done_links = process_page(url, parent_url)
     update_settings(child_cat, child_cat_links, child_page, child_page_links, child_done_links)
