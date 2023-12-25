@@ -1,4 +1,4 @@
-# Scraping the page names from Wikipedia category hierarchy
+# Scraping Wikipedia - I: Scraping the page names from Wikipedia category hierarchy
 
 <p align='center'>
 <img src="https://github.com/SwamiKannan/Scraping_Wikipedia_categories/blob/main/images/category_scrapes.png">
