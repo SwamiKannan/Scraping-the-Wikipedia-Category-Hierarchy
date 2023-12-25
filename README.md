@@ -44,6 +44,8 @@ pip install -r requirements.txt
    </p>
    
 ### 4. Run the code below:
+First navigate to the 'src' directory.
+Then run the code below:
 ```
 python get_pages.py "<source category page>" -o <output_directory> (optional) -pl <max number of pages to be downloaded> -cl<max number of categories to be downloaded> -d <depth of scraping>
 ```
