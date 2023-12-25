@@ -75,11 +75,16 @@ OR
 2b. Inside a python console, type the following code:
   ```
   import requests
-  page_name = "<insert any page name from page_names.txt">
+
+  page_name = "<insert any page name from page_names.txt>"
+
   url='https://en.wikipedia.org/wiki/Special:Export/'+page_name
+
   response=requests.get(url)
   if response.status_code==200:
     content= response.content
+
+  if content:
     with open(<choose a filename ending with .xml>,'w',encoding='utf-8') as outfile:
       outfile.write(content)
 ```
