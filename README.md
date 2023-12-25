@@ -58,3 +58,28 @@ A folder "data" in the chosen output directory (or in the root directory of the 
   <li>done_links.txt - A text file containing the list of categories that have been identified **and traversed**. This is a reference only if we want to restart the session with the same parent Category.</li>
 </ol>
 
+## Usage:
+### Option 1: Through the browser
+1a. Go to <a href="https://en.wikipedia.org/wiki/Special:Export"> the Wikipedia's Export page </a> <br />
+1b. Enter the details from category_names.txt or page_names.txt as below:
+<p align='center'>
+  <img src="https://github.com/SwamiKannan/Scraping_Wikipedia_Category-Hierarchy/blob/main/images/usage.png"
+</p>
+  
+OR
+### Option 2: Through Python
+2a. Run the following code:
+```
+  pip install requests
+```
+2b. Inside a python console, type the following code:
+  ```
+  import requests
+  page_name = "<insert any page name from page_names.txt">
+  url='https://en.wikipedia.org/wiki/Special:Export/'+page_name
+  response=requests.get(url)
+  if response.status_code==200:
+    content= response.content
+    with open(<choose a filename ending with .xml>,'w',encoding='utf-8') as outfile:
+      outfile.write(content)
+```
